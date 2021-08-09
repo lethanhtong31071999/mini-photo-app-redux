@@ -1,0 +1,20 @@
+.banner {
+    display: flex;
+    height: 15rem;
+    justify-content: center;
+    align-items: center;
+
+
+    background-image: url(https://wallpaperaccess.com/full/2547506.jpg);
+    background-position: cover;
+    background-size: cover;
+
+    &__title {
+        color: transparent;
+        font-weight: bold;
+        background: linear-gradient(to bottom, white 0%,  blue 100%);
+        -moz-background-clip: text;
+        background-clip: text;
+        -webkit-background-clip: text;
+    }
+}

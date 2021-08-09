@@ -1,12 +1,23 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { Button, Container } from "reactstrap";
+import Banner from "../../../../components/Banner";
+import { Link } from "react-router-dom";
+import "./styles.scss";
+import Images from "../../../../constants/images";
 
 MainPage.propTypes = {};
 
 function MainPage(props) {
+  console.log(Images.BLACK_BG);
   return (
-    <div>
-      <h2>Main Page Photo</h2>
+    <div className="photo-main">
+      <Banner backgroundUrl={Images.BLACK_BG} />
+
+      <Container className="text-center">
+        <Link to="/photos/add">
+          <Button className="photo-main__btn">Add new Photo</Button>
+        </Link>
+      </Container>
     </div>
   );
 }

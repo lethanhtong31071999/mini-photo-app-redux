@@ -6,19 +6,17 @@ import MainPage from "./pages/Main/";
 // const AddEdit = React.lazy(() => import("./pages/AddEdit"));
 import AddEdit from "./pages/AddEdit";
 
-Photo.propTypes = {};
-
-function Photo(props) {
+function Photo() {
   const match = useRouteMatch();
   return (
     <>
       <Switch>
         <Route exact path={match.url} component={MainPage} />
 
-        <Route path={`${match.url}/addd`} component={AddEdit} />
-        <Route path={`${match.url}/:photoId`} component={AddEdit} />
+        <Route path={`${match.url}/add`} component={AddEdit} />
+        <Route exact path={`${match.url}/:photoId`} component={AddEdit} />
 
-        <Route components={NotFound} />
+        <Route component={NotFound} />
       </Switch>
     </>
   );
