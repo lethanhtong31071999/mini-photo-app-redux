@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, Container } from "reactstrap";
-import Banner from "../../../../components/Banner";
 import { Link } from "react-router-dom";
 import "./styles.scss";
-import Images from "../../../../constants/images";
+import Banner from "components/Banner";
+import Images from "constants/images";
 
 MainPage.propTypes = {};
 
