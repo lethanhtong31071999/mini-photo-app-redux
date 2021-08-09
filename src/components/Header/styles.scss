@@ -1,15 +1,22 @@
 .header {
     padding: 1rem 0;
-    font-size: 1.25rem;
-    color: black;
+    font-size: 1.5rem;
+    background-color: black;
 
     &__logo {
         font-weight: bold;
+        text-transform: uppercase;
+        color: transparent !important; 
+        background: linear-gradient(to bottom, white 0%, blue 100%);
+        -webkit-background-clip: text;
+        -moz-background-clip: text;
+        background-clip: text;
+    
     }
 
     &__link {
-        color: #000;
-        transition: all 0.25s ease-in-out 0s;
+        color: #fff;
+        transition: all 0.25s ease-in-out;
 
         &--active,
         &:hover {
