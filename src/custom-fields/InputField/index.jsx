@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FormGroup, Input, Label } from "reactstrap";
+import { FormFeedback, FormGroup, Input, Label } from "reactstrap";
 
 InputField.propTypes = {
   // Belonging to Formik
@@ -25,6 +25,8 @@ function InputField(props) {
   // field and form belong to Formik
   const { field, form, label, placeholder, type, disabled } = props;
   const { name, value, onChange, onBlur } = field;
+  const { touched, errors } = form;
+  const showError = errors[name] && touched[name];
 
   return (
     <FormGroup>
@@ -39,7 +41,9 @@ function InputField(props) {
         value={value}
         onChange={onChange}
         onBlur={onBlur}
+        invalid={showError}
       />
+      {showError ? <FormFeedback>{errors[name]}</FormFeedback> : null}
     </FormGroup>
   );
 }

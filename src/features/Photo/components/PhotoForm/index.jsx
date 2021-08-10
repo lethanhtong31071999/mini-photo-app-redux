@@ -7,16 +7,29 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Button, FormGroup } from "reactstrap";
 import "./styles.scss";
+import * as Yup from "yup";
 
 PhotoForm.propTypes = {
   onSubmit: PropTypes.func,
 };
 
 function PhotoForm(props) {
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required("This field is required"),
+
+    categoryId: Yup.number().required("This field is required").nullable(),
+
+    randomImageUrl: Yup.string().when("categoryId", {
+      is: null,
+      then: Yup.string().notRequired(),
+      otherwise: Yup.string().required("This field is required"),
+    }),
+  });
+
   const initialValues = {
     title: "",
-    category: {},
-    ramdomImageUrl: "",
+    categoryId: null,
+    randomImageUrl: "",
   };
 
   const handleSubmit = (value) => {
@@ -26,11 +39,11 @@ function PhotoForm(props) {
   return (
     <Formik
       initialValues={initialValues}
+      validationSchema={validationSchema}
       onSubmit={(value) => handleSubmit(value)}
     >
       {(formikProps) => {
         const { values, errors, touched } = formikProps;
-        console.log("Formik Props: ", formikProps);
         return (
           <Form className="photo-form">
             <div className="photo-form__content">
@@ -45,7 +58,7 @@ function PhotoForm(props) {
               />
 
               <FastField
-                name="category"
+                name="categoryId"
                 component={SelectField}
                 label="Category"
                 placeholder="What's your photo category?"
@@ -53,7 +66,7 @@ function PhotoForm(props) {
               />
 
               <FastField
-                name="ramdomImageUrl"
+                name="randomImageUrl"
                 component={RandomPhotoField}
                 label="Picture"
               />

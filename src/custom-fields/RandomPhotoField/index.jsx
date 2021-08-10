@@ -8,10 +8,10 @@ RandomPhotoField.propTypes = {
 
 function RandomPhotoField(props) {
   const { form, field, label } = props;
-
   //   truyền cái name để tiện cho việc setFieldValue và set id của các Input Field
   const { name, value, onChange, onBlur } = field;
-
+  const { errors, touched } = form;
+  const showError = errors[name] && touched[name];
   const handleImageUrlChange = (newImageUrl) => {
     form.setFieldValue(name, newImageUrl);
   };
@@ -23,6 +23,8 @@ function RandomPhotoField(props) {
       imageUrl={value !== undefined ? value : undefined}
       onImageUrlChange={handleImageUrlChange}
       onRandomButtonBlur={onBlur}
+      showError={showError}
+      errorMessage={errors[name]}
     />
   );
 }

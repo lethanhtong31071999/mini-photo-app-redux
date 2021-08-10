@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "./styles.scss";
-import { Button, FormGroup, Label } from "reactstrap";
+import { Button, FormFeedback, FormGroup, Label } from "reactstrap";
 RandomPhoto.propTypes = {
   name: PropTypes.string,
   imageUrl: PropTypes.string,
   onImageUrlChange: PropTypes.func,
   onRandomButtonBlur: PropTypes.func,
   label: PropTypes.string,
+  errorMessage: PropTypes.string,
+  showError: PropTypes.bool,
 };
 
 RandomPhoto.defaultProps = {
@@ -16,6 +18,8 @@ RandomPhoto.defaultProps = {
   label: "",
   onImageUrlChange: null,
   onRandomButtonBlur: null,
+  errorMessage: "",
+  showError: false,
 };
 
 const getRandomImageUrl = () => {
@@ -24,7 +28,15 @@ const getRandomImageUrl = () => {
 };
 
 function RandomPhoto(props) {
-  const { name, imageUrl, onImageUrlChange, onRandomButtonBlur, label } = props;
+  const {
+    name,
+    imageUrl,
+    onImageUrlChange,
+    onRandomButtonBlur,
+    showError,
+    label,
+    errorMessage,
+  } = props;
 
   const handleRandomPhotoClick = (e) => {
     const newImageUrl = getRandomImageUrl();
@@ -39,7 +51,7 @@ function RandomPhoto(props) {
   return (
     <FormGroup>
       {label ? <Label for="categoryId">{label}</Label> : null}
-      <div>
+      <div className={showError ? "is-invalid form-control" : ""}>
         <img
           className="photo-form__img"
           src={
@@ -50,6 +62,7 @@ function RandomPhoto(props) {
           alt="Opps....Can't get any pictures."
         />
       </div>
+      <FormFeedback>{errorMessage}</FormFeedback>
 
       <div>
         <Button

@@ -1,7 +1,7 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { FormGroup, Label } from "reactstrap";
+import React from "react";
 import Select from "react-select";
+import { FormFeedback, FormGroup, Label } from "reactstrap";
 
 SelectField.propTypes = {
   field: PropTypes.object.isRequired,
@@ -24,15 +24,17 @@ SelectField.defaultProps = {
 function SelectField(props) {
   const { form, field, label, disabled, placeholder, isMulti, options } = props;
   const { name, value, onChange, onBlur } = field;
+  const { errors, touched } = form;
+  const showError = errors[name] && touched[name];
 
   // Ham nay chay lai vi khi field thay doi se render lại hết
   const showSelection = options.find(function (option) {
     return option.value === value;
   });
-  console.log("showSelection", showSelection);
 
   function handleSelectedOptionChange(selectedOption) {
     if (selectedOption) {
+      // add vo function onChange
       const changeEvent = {
         target: {
           name: name,
@@ -42,8 +44,6 @@ function SelectField(props) {
       field.onChange(changeEvent);
     }
   }
-
-  console.log("value", value);
 
   return (
     <FormGroup>
@@ -61,8 +61,10 @@ function SelectField(props) {
           handleSelectedOptionChange(selectedOption)
         }
         onBlur={onBlur}
-        value={showSelection || undefined}
+        value={showSelection}
+        className={showError ? "is-invalid form-control" : ""}
       />
+      <FormFeedback>{errors[name]}</FormFeedback>
     </FormGroup>
   );
 }
