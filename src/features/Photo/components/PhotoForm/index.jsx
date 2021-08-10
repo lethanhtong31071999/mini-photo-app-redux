@@ -1,11 +1,12 @@
 import { PHOTO_CATEGORY_OPTIONS } from "constants/global";
-import PropTypes from "prop-types";
 import InputField from "custom-fields/InputField";
-import { FastField, Form, Formik } from "formik";
-import React from "react";
-import { Button, FormGroup, Label } from "reactstrap";
-import "./styles.scss";
+import RandomPhotoField from "custom-fields/RandomPhotoField";
 import SelectField from "custom-fields/SelectField";
+import { FastField, Form, Formik } from "formik";
+import PropTypes from "prop-types";
+import React from "react";
+import { Button, FormGroup } from "reactstrap";
+import "./styles.scss";
 
 PhotoForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -15,13 +16,21 @@ function PhotoForm(props) {
   const initialValues = {
     title: "",
     category: {},
+    ramdomImageUrl: "",
+  };
+
+  const handleSubmit = (value) => {
+    console.log("submit: ", value);
   };
 
   return (
-    <Formik initialValues={initialValues}>
-      {function (formikProps) {
+    <Formik
+      initialValues={initialValues}
+      onSubmit={(value) => handleSubmit(value)}
+    >
+      {(formikProps) => {
         const { values, errors, touched } = formikProps;
-        console.log({ values, errors, touched });
+        console.log("Formik Props: ", formikProps);
         return (
           <Form className="photo-form">
             <div className="photo-form__content">
@@ -43,22 +52,11 @@ function PhotoForm(props) {
                 options={PHOTO_CATEGORY_OPTIONS}
               />
 
-              <FormGroup>
-                <Label for="categoryId">Photo</Label>
-                <div>
-                  <img
-                    className="photo-form__img"
-                    src="https://vnrealty.com.vn/wp-content/uploads/2020/03/placeholder.png"
-                    alt="colorful"
-                  />
-                </div>
-
-                <div>
-                  <Button outline color="primary">
-                    Random a photo
-                  </Button>
-                </div>
-              </FormGroup>
+              <FastField
+                name="ramdomImageUrl"
+                component={RandomPhotoField}
+                label="Picture"
+              />
             </div>
 
             <FormGroup>
