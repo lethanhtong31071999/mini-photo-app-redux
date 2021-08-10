@@ -1,57 +1,75 @@
 import { PHOTO_CATEGORY_OPTIONS } from "constants/global";
+import PropTypes from "prop-types";
+import InputField from "custom-fields/InputField";
+import { FastField, Form, Formik } from "formik";
 import React from "react";
-import Select from "react-select";
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import { Button, FormGroup, Label } from "reactstrap";
 import "./styles.scss";
+import SelectField from "custom-fields/SelectField";
 
-PhotoForm.propTypes = {};
+PhotoForm.propTypes = {
+  onSubmit: PropTypes.func,
+};
 
 function PhotoForm(props) {
-  const selectOption = PHOTO_CATEGORY_OPTIONS;
-  console.log(selectOption);
+  const initialValues = {
+    title: "",
+    category: {},
+  };
+
   return (
-    <Form className="photo-form">
-      <div className="photo-form__content">
-        <FormGroup>
-          <Label for="tittlId">Title</Label>
-          <Input name="title" id="titleId" placeholder="eg: Wow nature" />
-        </FormGroup>
+    <Formik initialValues={initialValues}>
+      {function (formikProps) {
+        const { values, errors, touched } = formikProps;
+        console.log({ values, errors, touched });
+        return (
+          <Form className="photo-form">
+            <div className="photo-form__content">
+              <FastField
+                // props: form, field, atributes are declared here
+                name="title"
+                // component={(props) => InputField(props)}
+                component={InputField}
+                // Belonging to component
+                label="Title"
+                placeholder="eg: Wow nature"
+              />
 
-        <FormGroup>
-          <Label for="categoryId">Category</Label>
-          <Select
-            id="categoryId"
-            name="categoryId"
-            placeholder="What's your photo category?"
-            isMulti
-            options={selectOption}
-          />
-        </FormGroup>
+              <FastField
+                name="category"
+                component={SelectField}
+                label="Category"
+                placeholder="What's your photo category?"
+                options={PHOTO_CATEGORY_OPTIONS}
+              />
 
-        <FormGroup>
-          <Label for="categoryId">Photo</Label>
-          <div>
-            <img
-              className="photo-form__img"
-              src="https://vnrealty.com.vn/wp-content/uploads/2020/03/placeholder.png"
-              alt="colorful"
-            />
-          </div>
+              <FormGroup>
+                <Label for="categoryId">Photo</Label>
+                <div>
+                  <img
+                    className="photo-form__img"
+                    src="https://vnrealty.com.vn/wp-content/uploads/2020/03/placeholder.png"
+                    alt="colorful"
+                  />
+                </div>
 
-          <div>
-            <Button outline color="primary">
-              Random a photo
-            </Button>
-          </div>
-        </FormGroup>
-      </div>
+                <div>
+                  <Button outline color="primary">
+                    Random a photo
+                  </Button>
+                </div>
+              </FormGroup>
+            </div>
 
-      <FormGroup>
-        <Button className="photo-form__btn" color="primary">
-          Add to album
-        </Button>
-      </FormGroup>
-    </Form>
+            <FormGroup>
+              <Button className="photo-form__btn" color="primary">
+                Add to album
+              </Button>
+            </FormGroup>
+          </Form>
+        );
+      }}
+    </Formik>
   );
 }
 
