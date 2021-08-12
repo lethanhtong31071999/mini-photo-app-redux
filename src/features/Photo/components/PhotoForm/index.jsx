@@ -11,9 +11,17 @@ import * as Yup from "yup";
 
 PhotoForm.propTypes = {
   onSubmit: PropTypes.func,
+  initialValues: PropTypes.object.isRequired,
+  isAddMode: PropTypes.bool,
+};
+
+PhotoForm.defaultProps = {
+  onSubmit: null,
+  isAddMode: true,
 };
 
 function PhotoForm(props) {
+  const { onSubmit, initialValues, isAddMode } = props;
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("This field is required"),
 
@@ -26,14 +34,9 @@ function PhotoForm(props) {
     }),
   });
 
-  const initialValues = {
-    title: "",
-    categoryId: null,
-    randomImageUrl: "",
-  };
-
   const handleSubmit = (value) => {
-    console.log("submit: ", value);
+    if (!onSubmit) return;
+    onSubmit(value);
   };
 
   return (
@@ -43,12 +46,13 @@ function PhotoForm(props) {
       onSubmit={(value) => handleSubmit(value)}
     >
       {(formikProps) => {
-        const { values, errors, touched } = formikProps;
+        const { isSubmitting } = formikProps;
         return (
           <Form className="photo-form">
             <div className="photo-form__content">
               <FastField
                 // props: form, field, atributes are declared here
+                // form and field are automatically imported
                 name="title"
                 // component={(props) => InputField(props)}
                 component={InputField}
@@ -73,8 +77,17 @@ function PhotoForm(props) {
             </div>
 
             <FormGroup>
-              <Button className="photo-form__btn" color="primary">
-                Add to album
+              <Button
+                disabled={isSubmitting}
+                className="photo-form__btn"
+                color="primary"
+                type="submit"
+              >
+                {isSubmitting
+                  ? "Loading..."
+                  : isAddMode
+                  ? "Add to album"
+                  : "Edit Picture"}
               </Button>
             </FormGroup>
           </Form>

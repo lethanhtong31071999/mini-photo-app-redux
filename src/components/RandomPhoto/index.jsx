@@ -68,7 +68,6 @@ function RandomPhoto(props) {
         <Button
           outline
           color="primary"
-          type="submit"
           onClick={handleRandomPhotoClick}
           name={name}
         >
