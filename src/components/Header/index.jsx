@@ -25,10 +25,10 @@ function Header(props) {
             <NavLink
               exact
               className="header__link"
-              to="/photos"
+              to="/signin"
               activeClassName="header__link--active"
             >
-              Redux Project
+              Sign In
             </NavLink>
           </Col>
         </Row>

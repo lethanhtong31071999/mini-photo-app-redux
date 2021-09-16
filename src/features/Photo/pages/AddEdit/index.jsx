@@ -26,24 +26,23 @@ function AddEdit(props) {
 
   const currentPhoto = isAddMode ? null : getPhoto(photoId, photos);
 
-  const initialValues =
-    isAddMode && currentPhoto
-      ? {
-          title: "",
-          categoryId: null,
-          randomImageUrl: "",
-        }
-      : {
-          title: currentPhoto.title,
-          categoryId: currentPhoto.categoryId,
-          randomImageUrl: currentPhoto.randomImageUrl,
-        };
+  const initialValues = isAddMode
+    ? {
+        title: "",
+        categoryId: null,
+        randomImageUrl: "",
+      }
+    : {
+        title: currentPhoto.title,
+        categoryId: currentPhoto.categoryId,
+        randomImageUrl: currentPhoto.randomImageUrl,
+      };
 
   const handleOnSubmit = (value) => {
-    console.log("Form Submit: ", value);
-
     setTimeout(() => {
       if (isAddMode) {
+        const id = Date.now().toLocaleString();
+        value["id"] = id;
         const action = addPhoto(value);
         dispatch(action);
       } else {
